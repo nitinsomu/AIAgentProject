@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Agent Dashboard</h1>
+        
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">Upload CSV File:</label>
+            <input type="file" id="file" name="file"  accept=".csv" required>
+            <button type="submit">Upload</button>
+        </form>
+    
+        <form id="queryForm" action="/query" method="post">
+
+            <h2>Select Column:</h2>
+            {% for column in columns %}
+                <label>
+                    <input type="radio" name="column" value="{{ column }}" {% if column == selected_column %} checked {% endif %}>
+                    {{ column }}
+                </label><br>
+            {% endfor %}
+
+            <label for="query">Enter your query:</label>
+            <input type="text" id="query" name="query" placeholder="e.g., Get email of {company}">
+            
+            <button type="submit">Submit Query</button>
+        </form>
+        <ul>
+            {% for result in results %}
+                <li>{{ result[0] }}: {{ result[1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
